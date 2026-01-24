@@ -23,7 +23,9 @@ The project was developed as part of the **Artificial Intelligence (UTS)** assig
 ## 📊 Dataset
 - **Source:** Vehicle Object Dataset (YOLO format)
 - **Train Images:** 2,062  
-- **Validation Images:** 873  
+- **Validation Images:** 873
+- **Link Datasets :** https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo?utm_source=chatgpt.com
+
 
 ### Class Mapping
 | Class ID | Label |
@@ -33,7 +35,6 @@ The project was developed as part of the **Artificial Intelligence (UTS)** assig
 | 2 | Motorbike |
 
 ⚠️ Note: Dataset originally contained 6 classes, but only 3 were used.
-Link Datasets : https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo?utm_source=chatgpt.com
 
 ---
 
