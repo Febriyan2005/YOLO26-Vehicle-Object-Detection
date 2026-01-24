@@ -3,7 +3,7 @@
 ---
 
 ## 🖼️ Sample Output
-![Detection Result](images/sample_detection.png)
+![Detection Result](Images/Screenshot 2026-01-23 133055.png)
 
 **Short description:**  
 Object detection project using YOLOv8 to detect vehicles (Car, Bus, Motorbike) with bounding boxes and confidence scores.
@@ -54,7 +54,7 @@ The project was developed as part of the **Artificial Intelligence (UTS)** assig
 ---
 
 ## 📈 Training Results
-![Training Metrics](Images/Grafik Training Yolo.png)
+![Training Metrics] (Images/Grafik Training Yolo.png)
 
 Metrics evaluated:
 - Precision
