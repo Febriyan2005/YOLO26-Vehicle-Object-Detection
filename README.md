@@ -54,7 +54,7 @@ The project was developed as part of the **Artificial Intelligence (UTS)** assig
 ---
 
 ## 📈 Training Results
-![Training Metrics](images/results.png)
+![Training Metrics](Images/Grafik Training Yolo.png)
 
 Metrics evaluated:
 - Precision
