@@ -3,7 +3,7 @@
 ---
 
 ## 🖼️ Sample Output
-![Detection Result](Images/Screenshot 2026-01-23 133055.png)
+![Detection Result](Images/Hasil_Deteksi_Yolo.png)
 
 **Short description:**  
 Object detection project using YOLOv8 to detect vehicles (Car, Bus, Motorbike) with bounding boxes and confidence scores.
