@@ -24,7 +24,7 @@ The project was developed as part of the **Artificial Intelligence (UTS)** assig
 - **Source:** Vehicle Object Dataset (YOLO format)
 - **Train Images:** 2,062  
 - **Validation Images:** 873
-- **Link Datasets :** https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo?utm_source=chatgpt.com
+- **Link Datasets :** https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo?utm_source
 
 
 ### Class Mapping
