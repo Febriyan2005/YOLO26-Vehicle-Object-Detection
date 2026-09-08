@@ -2,7 +2,7 @@
 
 Sistem **deteksi objek kendaraan berbasis YOLOv8** untuk mengenali beberapa jenis kendaraan secara otomatis menggunakan **computer vision**. Proyek ini mencakup proses persiapan dataset, training model, evaluasi performa, hingga visualisasi hasil deteksi dengan bounding box dan confidence score.
 
-> Proyek dikembangkan sebagai bagian dari tugas **Artificial Intelligence (UTS)**.
+> Proyek dikembangkan sebagai bagian dari tugas **Artificial Intelligence (UAS)**.
 
 ---
 
