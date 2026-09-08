@@ -1,83 +1,143 @@
 # 🚗🚌🏍️ YOLOv8 Vehicle Object Detection
 
----
+Sistem **deteksi objek kendaraan berbasis YOLOv8** untuk mengenali beberapa jenis kendaraan secara otomatis menggunakan **computer vision**. Proyek ini mencakup proses persiapan dataset, training model, evaluasi performa, hingga visualisasi hasil deteksi dengan bounding box dan confidence score.
 
-## 🖼️ Sample Output
-![Detection Result](Images/Hasil_Deteksi_Yolo.png)
-
-**Short description:**  
-Object detection project using YOLOv8 to detect vehicles (Car, Bus, Motorbike) with bounding boxes and confidence scores.
+> Proyek dikembangkan sebagai bagian dari tugas **Artificial Intelligence (UTS)**.
 
 ---
 
-## 🔎 Project Overview
-This project implements a YOLOv8-based object detection model to identify three types of vehicles:
-- Car
-- Bus
-- Motorbike
+## 📌 Project Overview
 
-The project was developed as part of the **Artificial Intelligence (UTS)** assignment.
+Proyek ini menggunakan **YOLOv8** untuk mendeteksi dan mengklasifikasikan objek kendaraan pada gambar.
+
+Model dilatih untuk mengenali **6 kelas kendaraan**:
+
+- 🚌 Bus
+- 🚗 Car
+- 🏍️ Motorbike
+- 🛺 Rickshaw
+- 🚚 Truck
+- 🚐 Van
+
+Hasil deteksi ditampilkan menggunakan **bounding box** beserta **confidence score** untuk menunjukkan objek dan tingkat keyakinan model terhadap prediksinya.
 
 ---
 
 ## 📊 Dataset
-- **Source:** Vehicle Object Dataset (YOLO format)
-- **Train Images:** 2,062  
-- **Validation Images:** 873
-- **Link Datasets :** https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo?utm_source
 
+Dataset yang digunakan merupakan **Vehicle Object Dataset** dalam format YOLO.
+
+| Komponen | Detail |
+|---|---|
+| Sumber | Vehicle Object Dataset |
+| Format | YOLO |
+| Training Images | 2.062 |
+| Validation Images | 873 |
+| Jumlah Kelas | 6 |
+
+🔗 **Dataset:**  
+[Vehicle Object Dataset – Roboflow](https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo)
 
 ### Class Mapping
+
 | Class ID | Label |
-|--------|------|
+|---:|---|
 | 0 | Bus |
 | 1 | Car |
 | 2 | Motorbike |
-
-⚠️ Note: Dataset originally contained 6 classes, but only 3 were used.
-
----
-
-## 🧹 Data Preprocessing
-- Filtered unused class IDs
-- Verified image–label consistency
-- YOLO format (`.txt`) used directly
-- Preprocessing handled automatically by YOLOv8
+| 3 | Rickshaw |
+| 4 | Truck |
+| 5 | Van |
 
 ---
 
-## 🧠 Model & Method
-- **Algorithm:** YOLOv8 Nano
-- **Framework:** Ultralytics
-- **Epochs:** 10
-- **Image Size:** 640×640
-- **Batch Size:** 16
+## 🧹 Data Preparation
+
+Tahap persiapan data dilakukan sebelum proses training model, meliputi:
+
+- Memeriksa jumlah gambar dan label pada dataset.
+- Memastikan struktur dataset sesuai dengan format YOLO.
+- Memeriksa konsistensi antara gambar dan file label.
+- Menyiapkan konfigurasi `data.yaml` untuk mendefinisikan 6 kelas kendaraan.
+- Membagi data menjadi training dan validation untuk proses pembelajaran dan evaluasi model.
 
 ---
 
-## 📈 Training Results
+## 🧠 Model & Training
+
+| Parameter | Konfigurasi |
+|---|---|
+| Model | YOLOv8 Nano (`yolov8n`) |
+| Framework | Ultralytics |
+| Epochs | 5 |
+| Image Size | 640 × 640 |
+| Batch Size | 16 |
+| Environment | Google Colab |
+| Language | Python |
+
+Model dilatih menggunakan **transfer learning** dari bobot awal YOLOv8 untuk menyesuaikan model dengan karakteristik dataset kendaraan.
+
+---
+
+## 📈 Model Evaluation
+
+Performa model dievaluasi menggunakan beberapa metrik utama:
+
+- **Precision** — mengukur ketepatan prediksi positif model.
+- **Recall** — mengukur kemampuan model menemukan objek yang sebenarnya ada.
+- **mAP@0.5** — evaluasi mean Average Precision pada IoU 0.5.
+- **mAP@0.5:0.95** — evaluasi pada rentang IoU 0.5 hingga 0.95.
+
+### Training Metrics
+
 ![Training Metrics](Images/Grafik_Training_Yolo.png)
 
-Metrics evaluated:
-- Precision
-- Recall
-- mAP@0.5
-- mAP@0.5:0.95
+Grafik menunjukkan perkembangan **loss, precision, recall, dan mAP** selama proses training dan validation.
 
 ---
 
 ## 🖼️ Detection Results
-Bounding boxes with confidence scores are visualized on validation images.
+
+Berikut merupakan contoh hasil inferensi model pada gambar kendaraan.
+
+![Detection Result](Images/Hasil_Deteksi_Yolo.png)
+
+Model menampilkan:
+
+- **Bounding box** untuk lokasi objek.
+- **Label kelas kendaraan**.
+- **Confidence score** untuk setiap prediksi.
 
 ---
 
-## 🛠 Tools
-- Python
-- YOLOv8 (Ultralytics)
-- Matplotlib
-- Google Colab
+## 🔬 Visualisasi Dataset
+
+Contoh data training dari berbagai kelas kendaraan digunakan untuk melihat karakteristik dataset dan memastikan objek yang digunakan dalam proses pembelajaran.
+
+![Dataset Visualization](Images/Visualisasi_6_Kelas.png)
 
 ---
 
-## ✅ Conclusion
-The YOLOv8 model successfully detects three vehicle classes with good accuracy. Minor misclassification (e.g., van detected as bus) is likely caused by dataset labeling rather than implementation errors.
+## 🛠️ Tools & Technologies
+
+- **Python**
+- **YOLOv8**
+- **Ultralytics**
+- **OpenCV**
+- **Matplotlib**
+- **Google Colab**
+
+---
+
+## 📁 Project Structure
+
+```text
+YOLOv8-Vehicle-Object-Detection/
+│
+├── Images/
+│   ├── Hasil_Deteksi_Yolo.png
+│   ├── Grafik_Training_Yolo.png
+│   └── Visualisasi_6_Kelas.png
+│
+├── README.md
+└── YOLOv8_Vehicle_Object_Detection.ipynb
