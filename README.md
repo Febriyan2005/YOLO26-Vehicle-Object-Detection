@@ -1,16 +1,8 @@
-# 🚗🚌🏍️ YOLOv8 Vehicle Object Detection
+# 🚗🚌🏍️ YOLO26 Vehicle Object Detection
 
-Sistem **deteksi objek kendaraan berbasis YOLOv8** untuk mengenali beberapa jenis kendaraan secara otomatis menggunakan **computer vision**. Proyek ini mencakup proses persiapan dataset, training model, evaluasi performa, hingga visualisasi hasil deteksi dengan bounding box dan confidence score.
+A computer vision project for detecting and classifying **6 vehicle classes** using **YOLO26 Nano**. The project covers dataset auditing, model fine-tuning, evaluation, and visual analysis of object detection results.
 
-> Proyek dikembangkan sebagai bagian dari tugas **Artificial Intelligence (UAS)**.
-
----
-
-## 📌 Project Overview
-
-Proyek ini menggunakan **YOLOv8** untuk mendeteksi dan mengklasifikasikan objek kendaraan pada gambar.
-
-Model dilatih untuk mengenali **6 kelas kendaraan**:
+The model is trained to identify:
 
 - 🚌 Bus
 - 🚗 Car
@@ -19,28 +11,44 @@ Model dilatih untuk mengenali **6 kelas kendaraan**:
 - 🚚 Truck
 - 🚐 Van
 
-Hasil deteksi ditampilkan menggunakan **bounding box** beserta **confidence score** untuk menunjukkan objek dan tingkat keyakinan model terhadap prediksinya.
+---
+
+## 📌 Project Overview
+
+This project implements an object detection pipeline using **YOLO26 Nano (`yolo26n.pt`)** with a custom vehicle dataset.
+
+The workflow includes:
+
+1. Dataset auditing and validation
+2. Dataset preparation in YOLO format
+3. Transfer learning from a pretrained YOLO26 model
+4. Model fine-tuning
+5. Validation and performance evaluation
+6. Per-class performance analysis
+7. Visual inspection of detection results
+8. Inference performance analysis
+
+The goal is to build a lightweight vehicle detection model capable of recognizing multiple vehicle categories from images.
 
 ---
 
 ## 📊 Dataset
 
-Dataset yang digunakan merupakan **Vehicle Object Dataset** dalam format YOLO.
+The project uses a vehicle object detection dataset in **YOLO format**.
 
-| Komponen | Detail |
+| Component | Detail |
 |---|---|
-| Sumber | Vehicle Object Dataset |
+| Dataset Type | Vehicle Object Detection |
 | Format | YOLO |
-| Training Images | 2.062 |
+| Training Images | 2,062 |
 | Validation Images | 873 |
-| Jumlah Kelas | 6 |
-
-🔗 **Dataset:**  
-[Vehicle Object Dataset – Roboflow](https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo)
+| Training Objects | 2,637 |
+| Validation Objects | 1,114 |
+| Number of Classes | 6 |
 
 ### Class Mapping
 
-| Class ID | Label |
+| Class ID | Class |
 |---:|---|
 | 0 | Bus |
 | 1 | Car |
@@ -51,93 +59,174 @@ Dataset yang digunakan merupakan **Vehicle Object Dataset** dalam format YOLO.
 
 ---
 
-## 🧹 Data Preparation
+## 🧹 Dataset Preparation & Auditing
 
-Tahap persiapan data dilakukan sebelum proses training model, meliputi:
+Before training, the dataset was audited to verify its structure and annotation consistency.
 
-- Memeriksa jumlah gambar dan label pada dataset.
-- Memastikan struktur dataset sesuai dengan format YOLO.
-- Memeriksa konsistensi antara gambar dan file label.
-- Menyiapkan konfigurasi `data.yaml` untuk mendefinisikan 6 kelas kendaraan.
-- Membagi data menjadi training dan validation untuk proses pembelajaran dan evaluasi model.
+The preparation process included:
+
+- Checking the number of training and validation images.
+- Verifying image and label availability.
+- Checking the YOLO annotation format.
+- Reviewing class distribution.
+- Validating the dataset configuration through `data.yaml`.
+- Visualizing representative samples from the six classes.
+
+This step helps reduce dataset-related issues before model training.
 
 ---
 
 ## 🧠 Model & Training
 
-| Parameter | Konfigurasi |
+The model was fine-tuned using a pretrained **YOLO26 Nano** model.
+
+| Parameter | Configuration |
 |---|---|
-| Model | YOLOv8 Nano (`yolov8n`) |
+| Model | YOLO26 Nano (`yolo26n.pt`) |
+| Task | Object Detection |
 | Framework | Ultralytics |
-| Epochs | 5 |
 | Image Size | 640 × 640 |
-| Batch Size | 16 |
+| Maximum Epochs | 30 |
+| Early Stopping | Patience = 8 |
+| Optimizer | Auto (MuSGD for YOLO26) |
+| Seed | 42 |
+| Hardware | NVIDIA T4 GPU |
 | Environment | Google Colab |
 | Language | Python |
 
-Model dilatih menggunakan **transfer learning** dari bobot awal YOLOv8 untuk menyesuaikan model dengan karakteristik dataset kendaraan.
+### Training Strategy
+
+Transfer learning was used by starting from pretrained YOLO26 Nano weights and fine-tuning the model on the vehicle dataset.
+
+The training configuration uses early stopping so that training can stop when validation performance no longer improves, helping avoid unnecessary training.
 
 ---
 
-## 📈 Model Evaluation
+## 📈 Model Performance
 
-Performa model dievaluasi menggunakan beberapa metrik utama:
+The final model was evaluated on the validation dataset using standard object detection metrics.
 
-- **Precision** — mengukur ketepatan prediksi positif model.
-- **Recall** — mengukur kemampuan model menemukan objek yang sebenarnya ada.
-- **mAP@0.5** — evaluasi mean Average Precision pada IoU 0.5.
-- **mAP@0.5:0.95** — evaluasi pada rentang IoU 0.5 hingga 0.95.
+| Metric | Result |
+|---|---:|
+| Precision | **0.9805** |
+| Recall | **0.9430** |
+| mAP@0.50 | **0.9834** |
+| mAP@0.50:0.95 | **0.9157** |
+| Inference Time | **6.31 ms/image** |
+| Approx. FPS | **158.5 FPS** |
 
-### Training Metrics
+### What the Metrics Mean
 
-![Training Metrics](Images/Grafik_Training_Yolo.png)
+- **Precision** — measures how many predicted objects are correct.
+- **Recall** — measures how many actual objects are successfully detected.
+- **mAP@0.50** — mean Average Precision using an IoU threshold of 0.50.
+- **mAP@0.50:0.95** — mean Average Precision across IoU thresholds from 0.50 to 0.95.
 
-Grafik menunjukkan perkembangan **loss, precision, recall, dan mAP** selama proses training dan validation.
+---
+
+## 📊 Per-Class Performance
+
+The validation results show the following AP values for each vehicle class:
+
+| Class | AP |
+|---|---:|
+| Van | 0.9661 |
+| Bus | 0.9595 |
+| Car | 0.9342 |
+| Truck | 0.9252 |
+| Rickshaw | 0.9148 |
+| Motorbike | 0.7943 |
+
+The results indicate strong detection performance across most classes, while **Motorbike** has the lowest AP among the six classes and represents the main area for potential improvement.
+
+---
+
+## 📉 Training Metrics
+
+The training process was monitored using loss, precision, recall, and mAP metrics.
+
+![Training Metrics](Images/training_metrics.png)
+
+The curves provide an overview of model learning and validation performance throughout training.
+
+---
+
+## 🔍 Confusion Matrix
+
+The normalized confusion matrix is used to analyze prediction behavior across the six vehicle classes.
+
+![Confusion Matrix](Images/confusion_matrix_normalized.png)
+
+This visualization helps identify which classes are correctly detected and where confusion between vehicle categories occurs.
+
+---
+
+## 🎯 Precision-Recall Curve
+
+The Precision-Recall curve provides an overview of detection performance across different confidence thresholds.
+
+![Precision-Recall Curve](Images/precision_recall_curve.png)
+
+---
+
+## 📐 F1 Curve
+
+The F1 curve shows the relationship between precision and recall across confidence thresholds.
+
+![F1 Curve](Images/f1_curve.png)
 
 ---
 
 ## 🖼️ Detection Results
 
-Berikut merupakan contoh hasil inferensi model pada gambar kendaraan.
+The following examples show the model detecting vehicles using bounding boxes, class labels, and confidence scores.
 
-![Detection Result](Images/Hasil_Deteksi_Yolo.png)
+![Detection Results](Images/detection_contact_sheet.png)
 
-Model menampilkan:
-
-- **Bounding box** untuk lokasi objek.
-- **Label kelas kendaraan**.
-- **Confidence score** untuk setiap prediksi.
+The model successfully identifies multiple vehicle categories including cars, buses, motorbikes, rickshaws, trucks, and vans.
 
 ---
 
-## 🔬 Visualisasi Dataset
+## ⚡ Inference Performance
 
-Contoh data training dari berbagai kelas kendaraan digunakan untuk melihat karakteristik dataset dan memastikan objek yang digunakan dalam proses pembelajaran.
+The validation inference results show an average inference time of approximately:
 
-![Dataset Visualization](Images/Visualisasi_6_Kelas.png)
+**6.31 ms per image**
+
+or approximately:
+
+**158.5 FPS**
+
+This indicates that the Nano model provides a lightweight architecture suitable for fast image inference under the tested environment.
+
+> Inference speed can vary depending on hardware, image size, runtime environment, and deployment configuration.
 
 ---
 
 ## 🛠️ Tools & Technologies
 
 - **Python**
-- **YOLOv8**
+- **YOLO26**
 - **Ultralytics**
+- **PyTorch**
 - **OpenCV**
 - **Matplotlib**
 - **Google Colab**
+- **NVIDIA T4 GPU**
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-YOLOv8-Vehicle-Object-Detection/
+YOLO26-Vehicle-Object-Detection/
 │
 ├── Images/
-│   ├── Hasil_Deteksi_Yolo.png
-│   ├── Grafik_Training_Yolo.png
-│   └── Visualisasi_6_Kelas.png
+│   ├── confusion_matrix_normalized.png
+│   ├── detection_contact_sheet.png
+│   ├── f1_curve.png
+│   ├── precision_recall_curve.png
+│   └── training_metrics.png
 │
 ├── README.md
-└── YOLOv8_Vehicle_Object_Detection.ipynb
+└── YOLO26_Vehicle_Object_Detection.ipynb
