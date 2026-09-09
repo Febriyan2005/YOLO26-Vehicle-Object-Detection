@@ -46,6 +46,12 @@ The project uses a vehicle object detection dataset in **YOLO format**.
 | Validation Objects | 1,114 |
 | Number of Classes | 6 |
 
+### 🔗 Dataset Source
+
+The dataset is publicly available through Roboflow Universe:
+
+**[Vehicle Object Dataset – Roboflow](https://universe.roboflow.com/nadin-pethiyagoda/vehicle-dataset-for-yolo)**
+
 ### Class Mapping
 
 | Class ID | Class |
